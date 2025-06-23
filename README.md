@@ -45,7 +45,7 @@ Cloud-Storage is a modern, full-stack file-Storage built with **Next.js**, **Cle
 ### 1. Clone the repo
 
 ```bash
-https://github.com/Prince5598/Droply-File-storage.git
+https://github.com/Prince5598/Cloud-Storage.git
 cd your-folder-name
 ```
 
