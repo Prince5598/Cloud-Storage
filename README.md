@@ -54,7 +54,7 @@ cd your-folder-name
 npm install
 ```
 
-### 3. Setup .env.local
+### 3. Setup .env.example
 ```env
 CLERK_PUBLISHABLE_KEY=your_clerk_public_key
 CLERK_SECRET_KEY=your_clerk_secret_key
