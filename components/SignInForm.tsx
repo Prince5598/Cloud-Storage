@@ -10,21 +10,26 @@ import { z } from "zod"
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardBody, CardHeader, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Mail, Lock, AlertCircle, Eye, EyeOff } from "lucide-react";
 
-const CardBody = ({ children, className }: { children: React.ReactNode; className?: string }) => (
-  <div className={`p-6 ${className}`}>{children}</div>
-);
+// const CardContent = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+//   <div className={`p-6 ${className}`}>{children}</div>
+// );
 
-const CardHeader = ({ children, className }: { children: React.ReactNode; className?: string }) => (
-  <div className={`p-6 pb-2 ${className}`}>{children}</div>
-);
+// const CardHeader = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+//   <div className={`p-6 pb-2 ${className}`}>{children}</div>
+// );
 
-const CardFooter = ({ children, className }: { children: React.ReactNode; className?: string }) => (
-  <div className={`p-6 pt-4 ${className}`}>{children}</div>
-);
+// const CardFooter = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+//   <div className={`p-6 pt-4 ${className}`}>{children}</div>
+// );
 
 export default function SignInForm(){
     const router = useRouter();
@@ -78,7 +83,7 @@ export default function SignInForm(){
 
       <Separator />
 
-      <CardBody className="py-6">
+      <CardContent className="py-6">
         {authError && (
           <div className="bg-destructive/10 text-destructive p-4 rounded-lg mb-6 flex items-center gap-2">
             <AlertCircle className="h-5 w-5 flex-shrink-0" />
@@ -154,7 +159,7 @@ export default function SignInForm(){
             {isSubmitting ? "Signing in..." : "Sign In"}
           </Button>
         </form>
-      </CardBody>
+      </CardContent>
 
       <Separator />
 
