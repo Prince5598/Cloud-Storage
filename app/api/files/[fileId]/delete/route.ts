@@ -45,25 +45,28 @@ async function deleteFileAndChildren(fileId: string, userId: string) {
       }
 
       if (imagekitFileId) {
-        try {
-          const searchResults = await imagekit.listFiles({
-            name: imagekitFileId,
-            limit: 1,
-          });
+  try {
+    const searchResults = await imagekit.listFiles({
+      name: imagekitFileId,
+      limit: 1,
+    });
 
-          if (searchResults.length > 0) {
-            await imagekit.deleteFile(searchResults[0].fileId);
-            console.log("image deleted using searchResult!")
-          } else {
-            await imagekit.deleteFile(imagekitFileId);
-            console.log("Image Deleted using imageKitField!")
-          }
+    const result = searchResults[0];
 
-        } catch (searchError) {
-          console.error("ImageKit search failed:", searchError);
-          await imagekit.deleteFile(imagekitFileId);
-        }
-      }
+    if (result && "fileId" in result) {
+      await imagekit.deleteFile(result.fileId);
+      console.log("image deleted using searchResult!");
+    } else {
+      await imagekit.deleteFile(imagekitFileId);
+      console.log("Image deleted using imagekitFileId!");
+    }
+
+  } catch (searchError) {
+    console.error("ImageKit search failed:", searchError);
+    await imagekit.deleteFile(imagekitFileId);
+  }
+}
+
     } catch (error) {
       console.error("Failed to delete from ImageKit:", error);
     }

@@ -39,40 +39,45 @@ async function getAllNestedFiles(folderId: string, userId: string) {
 // Delete a single file from ImageKit (not folder)
 async function deleteFileFromImageKit(file: typeof files.$inferSelect) {
   try {
-    let imagekitFileId = null;
+    let imagekitFileId: string | null = null;
 
     if (file.fileUrl) {
       const urlWithoutQuery = file.fileUrl.split("?")[0];
-      imagekitFileId = urlWithoutQuery.split("/").pop();
+      imagekitFileId = urlWithoutQuery.split("/").pop() || null;
     }
 
     if (!imagekitFileId && file.path) {
-      imagekitFileId = file.path.split("/").pop();
+      imagekitFileId = file.path.split("/").pop() || null;
     }
 
-    if (imagekitFileId) {
-      try {
-        const searchResults = await imagekit.listFiles({
-          name: imagekitFileId,
-          limit: 1,
-        });
+    if (!imagekitFileId) return;
 
-        if (searchResults && searchResults.length > 0) {
-          console.log("Search result file")
-          await imagekit.deleteFile(searchResults[0].fileId);
+    try {
+      const searchResults = await imagekit.listFiles({
+        name: imagekitFileId,
+        limit: 1,
+      });
+
+      if (searchResults.length > 0) {
+        const result = searchResults[0];
+
+        if ("fileId" in result) {
+          await imagekit.deleteFile(result.fileId);
         } else {
-          console.log("folder")
           await imagekit.deleteFile(imagekitFileId);
         }
-      } catch (searchError) {
-        console.error("Error searching in ImageKit:", searchError);
+      } else {
         await imagekit.deleteFile(imagekitFileId);
       }
+    } catch (searchError) {
+      console.error("Error searching in ImageKit:", searchError);
+      await imagekit.deleteFile(imagekitFileId);
     }
   } catch (error) {
     console.error(`Error deleting file ${file.id} from ImageKit:`, error);
   }
 }
+
 
 export async function DELETE() {
   try {
